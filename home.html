@@ -1,0 +1,434 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}InterfaithConnect{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* General body styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e1e4e7; /* Light gray-blue background */
+            color: #333; /* Dark gray text color */
+        }
+
+        /* Navbar styles */
+        .navbar {
+            background-color: #343a40; /* Dark background for the navbar */
+            position: relative; /* Ensure proper positioning */
+}
+       
+    
+
+.navbar .profile-pic {
+    width: 50px; /* Change this value to adjust size */
+    height: 50px; /* Change this value to adjust size */
+    border-radius: 50%; /* Makes the image round */
+}
+
+
+
+.navbar .profile-name {
+    margin-left: 10px; /* Space between picture and name */
+}
+
+
+        .navbar-brand {
+            color: #15133C !important; /* White brand color */
+            font-weight: bold;
+            font-size: 2.8rem; /* Larger font size */
+            transition: color 0.3s ease;
+            
+        }
+
+        .navbar-brand:hover {
+            color: #e9e8e3 !important; /* Golden color on hover */
+        }
+
+        .nav-link {
+            color: #d80e0e !important; /* White color for nav links */
+            font-weight: 500; /* Medium weight for better visibility */
+            transition: color 0.3s ease; /* Smooth color transition on hover */
+            position: relative;
+            right: auto;
+            text-decoration: none; /* Remove underlines from links */
+
+        }
+
+        .nav-link:hover {
+            color: #ffcc00 !important; /* Golden color on hover */
+            text-decoration: none; /* Underline effect on hover */
+        }
+
+        /* Main container styles */
+        .container {
+            max-width: 100%; /* Set a maximum width for the content */
+            margin: 0; /* Center the content */
+            padding: 20px; /* Add padding to the container */
+            background-color: #B7CADB;
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            background-color: #EC994B; /* Light background for the sidebar */
+            border-right: 1px solid #dee2e6; /* Border for separation */
+            padding: 20px; /* Padding for the sidebar */
+            position: sticky; /* Keep sidebar sticky */
+            top: 0; /* Stay at the top of the viewport */
+            height: 100%; /* Full height */
+            
+        }
+        .sidebar a {
+        text-decoration: none; /* Remove underlines from all links in the sidebar */
+        color: #333; /* Set a default color for links */
+        }
+
+        .sidebar a:hover {
+        text-decoration: none; /* Ensure no underline on hover */
+        color: #ffcc00; /* Change color on hover if needed */
+        }
+
+
+        .sidebar-right {
+            border-left: 1px solid #dee2e6; /* Border for separation on the right sidebar */
+        }
+
+        /* Community Connect heading styles */
+        h1 {
+            text-align: center; /* Center the heading */
+            font-size: 3.5rem; /* Larger font size for the heading */
+            color: #007bff; /* Blue color for the heading */
+            margin-bottom: 20px; /* Space below the heading */
+            animation: fadeIn 1s ease; /* Fade-in animation */
+        }
+
+        ul {
+        list-style-type: none; /* Remove bullet points */
+        padding-left: 0; /* Remove padding */
+        }
+
+        ul li {
+        background-color: #ebebef; /* Background color for list items */
+        margin: 15px 0; /* Space between list items */
+        padding: 20px; /* Padding inside list items */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Light shadow effect */
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transition for hover effect */
+        }
+
+        /* Targeting links within the list items */
+ul li a {
+    text-decoration: none; /* Remove underlines from links */
+    color: inherit; /* Optional: inherit color from the parent element */
+}
+
+/* Hover effect for links within list items */
+ul li a:hover {
+    text-decoration: none; /* Ensure no underline on hover */
+}
+
+/* Hover effect for list items */
+ul li:hover {
+    background-color: #ede5e5; /* Change background on hover */
+    transform: translateY(-5px); /* Slight upward movement on hover */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+}
+.card {
+    background-color: #15133C; /* Light blue for "Offer Help" */
+}
+
+.card-header {
+    background-color: #007bff; /* Blue header for "Offer Help" */
+    color: white; /* White text color for header */
+}
+
+.card:nth-child(2) .card {
+    background-color: white; /* Light pink for "Request Help" */
+}
+
+.card:nth-child(2) .card-header {
+    background-color: #dc3545; /* Red header for "Request Help" */
+    color: white; /* White text color for header */
+}
+
+        /* Footer styles */
+        footer {
+            background-color: #343a40; /* Same color as the navbar */
+            color: #ffffff; /* White text color */
+            padding: 20px 0; /* Vertical padding */
+        }
+
+        footer p {
+            margin: 0; /* Remove default margin */
+            text-align: center; /* Center footer text */
+        }
+
+        /* Animation for the heading */
+        @keyframes fadeIn {
+            from {
+                opacity: 0; /* Start transparent */
+            }
+            to {
+                opacity: 1; /* End fully visible */
+            }
+        }
+
+        /* Button styles */
+        .btn-custom {
+            background-color: #007bff; /* Custom button color */
+            color: #ffffff; /* White text */
+            border: none; /* Remove border */
+            padding: 10px 20px; /* Padding */
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Transition for hover effect */
+        }
+
+        .btn-custom:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            transform: translateY(-3px); /* Slight upward movement on hover */
+        }
+
+        /* Search bar styles */
+        .search-container {
+            text-align: center;
+            margin: 20px 0; /* Space above and below */
+        }
+
+        .search-input {
+            width: 300px; /* Fixed width for the input */
+            padding: 10px; /* Padding */
+            border: 1px solid #ced4da; /* Light gray border */
+            border-radius: 5px; /* Rounded corners */
+            transition: border 0.3s ease; /* Smooth border transition */
+        }
+
+        .search-input:focus {
+            border-color: #007bff; /* Change border color on focus */
+            outline: none; /* Remove outline */
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none; /* Hide sidebar on smaller screens */
+            }
+
+            .container {
+                padding: 10px; /* Reduce padding on smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">InterfaithConnect</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'community_list' %}">Communities</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'event_list' %}">Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'community_create' %}">Create Community</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'event_create' %}">Create Event</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                </ul>
+<!-- Profile Section -->
+<div class="d-flex flex-column align-items-center" style="position: absolute; right: 20px;">
+    <a href="{% url 'profile_edit' %}">
+        <img src="path_to_your_profile_picture.jpg" alt="Profile" class="rounded-circle profile-pic">
+    </a>
+    <span class="mt-1">SSSS</span> <!-- Replace 'Your Name' with the actual name -->
+</div>
+
+            </div>
+        </div>
+    </nav>
+    
+    
+    <div class="container mt-4 d-flex flex-row">
+        <!-- Left Sidebar -->
+         
+        <div class="sidebar d-none d-md-block col-md-3">
+            <h4>Quick Links</h4>
+            <ul class="list-group">
+                <li class="list-group-item"><a href="{% url 'community_list' %}">View All Communities</a></li>
+                <li class="list-group-item"><a href="{% url 'event_list' %}">View All Events</a></li>
+                <li class="list-group-item"><a href="{% url 'interfaith_networking' %}">Interfaith Networking</a></li>
+                <li class="list-group-item"><a href="{% url 'about_us' %}">About Us</a></li>
+                <li class="list-group-item"><a href="{% url 'contact' %}">Contact Us</a></li>
+                <li class="list-group-item"><a href="{% url 'settings' %}">Settings</a></li>
+                <!-- Toggle Button -->
+                <button class="btn btn-link" id="toggleLinks">Show More Links</button>
+                <div id="additionalLinks" style="display: none;"> <!-- Hidden by default -->
+                <li class="list-group-item"><a href="#volunteer_opportunities">Volunteer Opportunities</a></li>
+                <li class="list-group-item"><a href="#interfaith_collaboration">Interfaith Collaboration Tools</a></li>
+                <li class="list-group-item"><a href="#shared_prayer_requests">Shared Prayer Requests</a></li>
+                <li class="list-group-item"><a href="#meditation_tools">Meditation Tools</a></li>
+                <li class="list-group-item"><a href="#social_media_integration#">Social Media Integration</a></li>
+                <li class="list-group-item"><a href="#community_groups">Community Groups</a></li>
+                <li class="list-group-item"><a href="#gamification_elements">Gamification Elements</a></li>
+                <li class="list-group-item"><a href="#multilingual_support">Multilingual Support</a></li>
+                <li class="list-group-item"><a href="#interactive_maps">Interactive Maps</a></li>
+                <li class="list-group-item"><a href="#cultural_exchange">Cultural Exchange Programs</a></li>
+                <li class="list-group-item"><a href="#mentorship_opportunities">Mentorship Opportunities</a></li>
+                <li class="list-group-item"><a href="#collaborative_projects">Collaborative Projects</a></li>
+                <li class="list-group-item"><a href="#resource_hub">Resource Hub</a></li>
+                <li class="list-group-item"><a href="#feedback_improvement">Feedback and Improvement</a></li>
+                <li class="list-group-item"><a href="#integration_with_texts">Integration with Religious Texts</a></li>
+                <li class="list-group-item"><a href="#charitable_initiatives">Charitable Initiatives</a></li>
+                <li class="list-group-item"><a href="#user_generated_content">User-Generated Content</a></li>
+                <li class="list-group-item"><a href="#faith_based_challenges">Faith-Based Challenges</a></li>
+                <li class="list-group-item"><a href="#crisis_response">Crisis Response Features</a></li>
+                <li class="list-group-item"><a href="#app_integration">App Integration with Social Services</a></li>
+                <li class="list-group-item"><a href="#diversity_celebrations">Diversity Celebrations</a></li>
+                <li class="list-group-item"><a href="#offline_accessibility">Offline Accessibility</a></li>
+                <li class="list-group-item"><a href="#language_tools">Language and Translation Tools</a></li>
+                <li class="list-group-item"><a href="#sustainability_initiatives">Environmental Sustainability Initiatives</a></li>
+                <li class="list-group-item"><a href="#wellness_resources">Wellness and Mental Health Resources</a></li>
+
+
+
+            </ul>
+        </div>
+    
+        <!-- Main Content Area -->
+        <div class="main-content col-md-6">
+            <h1 class="text-center">Welcome to InterfaithConnect</h1>
+            <p class="lead text-center">Connecting communities, offering support, and sharing experiences across different faiths.</p>
+    
+            <!-- Quick Access Section -->
+            <div class="text-center mb-4">
+                <a href="{% url 'offer_help' %}" class="btn btn-primary mx-2">Offer Help</a>
+                <a href="{% url 'request_help' %}" class="btn btn-success mx-2">Request Help</a>
+                <a href="{% url 'event_list' %}" class="btn btn-info mx-2">View Upcoming Events</a>
+            </div>
+    
+            <!-- Recent Messages -->
+            <h4>Recent Messages</h4>
+            <ul class="list-group mb-4">
+                {% for message in recent_messages %}
+                <li class="list-group-item">{{ message }}</li>
+                {% empty %}
+                <li class="list-group-item">No recent messages.</li>
+                {% endfor %}
+            </ul>
+    
+            <!-- Help Sections -->
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Offer Help</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li><a href="{% url 'offer_help_category_1' %}">Mental Health Support</a></li>
+                                <li><a href="{% url 'offer_help_category_2' %}">Food Assistance</a></li>
+                                <li><a href="{% url 'offer_help_category_3' %}">Shelter Services</a></li>
+                                <li><a href="{% url 'offer_help_category_4' %}">Educational Support</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Request Help</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li><a href="{% url 'request_help_category_1' %}">Mental Health Support</a></li>
+                                <li><a href="{% url 'request_help_category_2' %}">Food Assistance</a></li>
+                                <li><a href="{% url 'request_help_category_3' %}">Shelter Services</a></li>
+                                <li><a href="{% url 'request_help_category_4' %}">Educational Support</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Community Networking Section -->
+            <div class="text-center mb-4">
+                <h4>Connect with Community Members</h4>
+                <p>Find and connect with other members of your community.</p>
+                <a href="{% url 'community_networking' %}" class="btn btn-warning">Community Networking</a>
+            </div>
+    
+            <!-- Discussion Forums -->
+            <div class="text-center mb-4">
+                <h4>Join the Discussion</h4>
+                <p>Participate in discussions and share your thoughts.</p>
+                <a href="{% url 'discussion_forums' %}" class="btn btn-danger">Go to Forums</a>
+            </div>
+    
+            <!-- Profile Customization -->
+            <div class="text-center mb-4">
+                <h4>Customize Your Profile</h4>
+                <p>Update your profile and view your volunteer history.</p>
+                <a href="{% url 'profile_edit' %}" class="btn btn-light">Edit Profile</a>
+            </div>
+        </div>
+    
+        <!-- Right Sidebar -->
+        <div class="sidebar d-none d-md-block col-md-3">
+            <h4>Upcoming Events</h4>
+            <ul class="list-group">
+                <li class="list-group-item">Event 1: Details of event 1.</li>
+                <li class="list-group-item">Event 2: Details of event 2.</li>
+                <li class="list-group-item">Event 3: Details of event 3.</li>
+                <li class="list-group-item">Event 4: Details of event 4.</li>
+                <li class="list-group-item">Event 5: Details of event 5.</li>
+            </ul>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2024 InterfaithConnect. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initially hide additional links
+            $('#additionalLinks').hide();
+    
+            $('#toggleLinks').click(function() {
+                $('#additionalLinks').toggle(); // Toggle visibility of additional links
+                
+                // Change button text based on visibility
+                if ($('#additionalLinks').is(':visible')) {
+                    $(this).text('Show Less Links');
+                } else {
+                    $(this).text('Show More Links');
+                }
+            });
+        });
+    </script>
+    
+</body>
+</html>
