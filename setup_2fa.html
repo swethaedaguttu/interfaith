@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Setup Two-Factor Authentication</title>
+</head>
+<body>
+    <h2>Set up 2-Factor Authentication</h2>
+
+    <p>Scan the following QR code with your authenticator app (Google Authenticator, Authy, etc.), and then enter the code below:</p>
+
+    <img src="{{ device.config_url }}" alt="QR Code">
+
+    <form method="post">
+        {% csrf_token %}
+        <label for="otp">Enter OTP:</label>
+        <input type="text" name="otp" id="otp" placeholder="Enter OTP" required>
+        <button type="submit">Verify OTP</button>
+    </form>
+</body>
+</html>

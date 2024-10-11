@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .notifications-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .notification-item {
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        .notification-item p {
+            margin: 0;
+        }
+        .notification-actions {
+            margin-top: 10px;
+        }
+        .notification-actions button {
+            margin-right: 10px;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .notification-actions button.delete {
+            background-color: #dc3545;
+        }
+        .notification-actions button:hover {
+            opacity: 0.9;
+        }
+        .filter-search {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .filter-search input {
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: 200px;
+        }
+        .filter-search select {
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Notification Center</h1>
+    </header>
+
+    <section class="filter-search">
+        <input type="text" id="searchInput" placeholder="Search notifications..." onkeyup="searchNotifications()">
+        <select id="filterDropdown" onchange="filterNotifications()">
+            <option value="all">All</option>
+            <option value="unread">Unread</option>
+            <option value="read">Read</option>
+        </select>
+    </section>
+
+    <section class="notifications-container" id="notificationsContainer">
+        <div class="notification-item" data-status="unread" data-id="1">
+            <p><strong>Unread Notification 1</strong></p>
+            <p>This is the first unread notification.</p>
+            <div class="notification-actions">
+                <button onclick="markAsRead(1)">Mark as Read</button>
+                <button class="delete" onclick="deleteNotification(1)">Delete</button>
+            </div>
+        </div>
+        <div class="notification-item" data-status="read" data-id="2">
+            <p><strong>Read Notification 2</strong></p>
+            <p>This is a read notification.</p>
+            <div class="notification-actions">
+                <button onclick="markAsRead(2)">Mark as Read</button>
+                <button class="delete" onclick="deleteNotification(2)">Delete</button>
+            </div>
+        </div>
+        <!-- Add more notifications here -->
+    </section>
+
+    <script>
+        // Filter notifications by status (all, unread, read)
+        function filterNotifications() {
+            var filterValue = document.getElementById("filterDropdown").value;
+            var notifications = document.querySelectorAll(".notification-item");
+
+            notifications.forEach(function(notification) {
+                var status = notification.getAttribute("data-status");
+                if (filterValue === "all" || filterValue === status) {
+                    notification.style.display = "block";
+                } else {
+                    notification.style.display = "none";
+                }
+            });
+        }
+
+        // Search notifications based on their content
+        function searchNotifications() {
+            var searchValue = document.getElementById("searchInput").value.toLowerCase();
+            var notifications = document.querySelectorAll(".notification-item");
+
+            notifications.forEach(function(notification) {
+                var content = notification.textContent.toLowerCase();
+                if (content.includes(searchValue)) {
+                    notification.style.display = "block";
+                } else {
+                    notification.style.display = "none";
+                }
+            });
+        }
+
+        // Mark a notification as read
+        function markAsRead(notificationId) {
+            var notification = document.querySelector(".notification-item[data-id='" + notificationId + "']");
+            if (notification) {
+                notification.setAttribute("data-status", "read");
+                notification.querySelector("strong").textContent = "Read " + notification.querySelector("strong").textContent.replace("Unread ", "");
+                alert("Marked notification " + notificationId + " as read.");
+                filterNotifications();  // Re-filter to apply read status if needed
+            }
+        }
+
+        // Delete a notification
+        function deleteNotification(notificationId) {
+            var notification = document.querySelector(".notification-item[data-id='" + notificationId + "']");
+            if (notification) {
+                notification.remove();  // Remove the notification from the DOM
+                alert("Deleted notification " + notificationId + ".");
+            }
+        }
+    </script>
+
+</body>
+</html>

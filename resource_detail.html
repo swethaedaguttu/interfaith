@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ resource.title }}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>{{ resource.title }}</h1>
+    <p>{{ resource.description }}</p>
+    <h2>AI Summary:</h2>
+    <p>{{ ai_summary }}</p>
+    <a href="{% url 'resources_directory' %}">Back to Resources</a>
+</body>
+</html>

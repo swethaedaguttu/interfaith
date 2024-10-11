@@ -1,0 +1,85 @@
+<!-- events/templates/events/event_form.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event - InterfaithConnect</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(to top, rgba(135, 206, 250, 0.8), rgba(255, 255, 255, 0.9)),
+                        url('https://cdn.pixabay.com/photo/2016/05/01/11/10/clouds-1421806_1280.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            font-family: 'Roboto', sans-serif;
+            height: 100vh; /* Full viewport height */
+            display: flex;
+            align-items: center; /* Center vertically */
+            justify-content: center; /* Center horizontally */
+            margin: 0; /* Remove default margin */
+        }
+
+        .container {
+            max-width: 800px;
+            padding: 30px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.9); /* Slightly more opaque for better contrast */
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #801155;
+        }
+
+        .btn {
+            background-color: #FF6F20;
+            color: #ffffff;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #FF8C00;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h1>Create a New Event</h1>
+        <form method="POST" action="{% url 'event_create' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="community">Select Community:</label>
+                <select name="community" class="form-control" id="community" required>
+                    <option value="" disabled selected>Select a community</option>
+                    {% for community in communities %}
+                        <option value="{{ community.id }}">{{ community.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="title">Event Title:</label>
+                <input type="text" name="title" class="form-control" id="title" required>
+            </div>
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="datetime-local" name="date" class="form-control" id="date" required>
+            </div>
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" name="location" class="form-control" id="location" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea name="description" class="form-control" id="description" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Event</button>
+        
+            <a href="{% url 'event_list' %}" class="btn btn-secondary mt-2">Back to Events</a>
+            <a href="{% url 'home' %}" class="btn btn-secondary mt-2">Back to Home</a>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        header h1 {
+            font-size: 2.5em;
+            color: #4A90E2;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: #4A90E2;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Container */
+        .container {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        /* Form Section */
+        section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            flex: 1;
+        }
+
+        section h2 {
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            color: #4A90E2;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        form label {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        form input, form textarea, form select {
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        form input:focus, form textarea:focus, form select:focus {
+            border-color: #4A90E2;
+            outline: none;
+        }
+
+        form button {
+            padding: 12px;
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #357ABD;
+        }
+
+        /* Profile Picture Section */
+        .profile-picture {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .profile-picture img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 4px solid #ddd;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        .profile-picture input[type="file"] {
+            display: block;
+            margin: 0 auto;
+            padding: 8px;
+            font-size: 1em;
+        }
+
+        /* Volunteer History */
+        .volunteer-history ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .volunteer-history li {
+            padding: 10px 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            padding: 8px 12px;
+            margin: 0 5px;
+            background-color: #ddd;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.3s ease;
+        }
+        .pagination a:hover {
+            background-color: #bbb;
+        }
+
+        /* Settings Link */
+        .settings-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .settings-link a {
+            color: #4A90E2;
+            font-size: 1.1em;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .settings-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Edit Your Profile</h1>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Profile</a>
+        <a href="#">Volunteer History</a>
+        <a href="#">Settings</a>
+        <a href="#">Logout</a>
+    </nav>
+
+    <!-- Profile Edit Sections -->
+    <div class="container">
+        <!-- Profile Picture Section -->
+        <section class="profile-picture">
+            <h2>Profile Picture</h2>
+            <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" id="profile_picture" name="profile_picture">
+                <button type="submit">Update Picture</button>
+            </form>
+        </section>
+
+        <!-- Personal Information Section -->
+        <section>
+            <h2>Personal Information</h2>
+            <form method="post">
+                {% csrf_token %}
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="{{ user.username }}" required>
+
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" value="{{ user_profile.location }}">
+
+                <label for="faith_background">Faith Background:</label>
+                <input type="text" id="faith_background" name="faith_background" value="{{ user_profile.faith_background }}">
+
+                <label for="interests">Interests:</label>
+                <textarea id="interests" name="interests" rows="4">{{ user_profile.interests }}</textarea>
+
+                <label for="social_links">Social Media Links:</label>
+                <input type="url" id="social_links" name="social_links" value="{{ user_profile.social_links }}" placeholder="https://example.com">
+
+                <button type="submit">Save Changes</button>
+            </form>
+        </section>
+
+        <!-- Password Update Section -->
+        <section>
+            <h2>Update Password</h2>
+            <form method="post" action="{% url 'update_password' %}">
+                {% csrf_token %}
+                <label for="current_password">Current Password:</label>
+                <input type="password" id="current_password" name="current_password" required>
+
+                <label for="new_password">New Password:</label>
+                <input type="password" id="new_password" name="new_password" required>
+
+                <label for="confirm_password">Confirm New Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password" required>
+
+                <button type="submit">Update Password</button>
+            </form>
+        </section>
+    </div>
+
+    <!-- Volunteer History Section -->
+    <section class="volunteer-history">
+        <h2>Volunteer History</h2>
+        <ul>
+            {% for event in volunteer_history %}
+                <li>{{ event.event_name }} - {{ event.event_date }}: {{ event.description }}</li>
+            {% empty %}
+                <li>No volunteer history available.</li>
+            {% endfor %}
+        </ul>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            {% if volunteer_history.has_previous %}
+                <a href="?page={{ volunteer_history.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            {% if volunteer_history.has_next %}
+                <a href="?page={{ volunteer_history.next_page_number }}">Next</a>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Settings Link -->
+    <div class="settings-link">
+        <a href="{% url 'settings' %}">Go to Settings</a>
+    </div>
+
+</body>
+</html>

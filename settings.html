@@ -1,0 +1,252 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | Community Connect</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* General body styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e9ecef; /* Light gray-blue background */
+            color: #333; /* Dark gray text color */
+        }
+
+        /* Navbar styles */
+        .navbar {
+            background-color: #343a40; /* Dark background for the navbar */
+        }
+
+        .navbar-brand {
+            color: #ffffff !important; /* White brand color */
+            font-weight: bold;
+        }
+
+        .nav-link {
+            color: #ffffff !important; /* White color for nav links */
+        }
+
+        /* Main container styles */
+        .container {
+            max-width: 800px; /* Set a maximum width for the content */
+            margin: auto; /* Center the content */
+            padding: 20px; /* Add padding to the container */
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: #343a40; /* Same color as the navbar */
+            color: #ffffff; /* White text color */
+            padding: 20px 0; /* Vertical padding */
+        }
+
+        footer p {
+            margin: 0; /* Remove default margin */
+            text-align: center; /* Center footer text */
+        }
+
+        /* Button styles */
+        .btn-custom {
+            background-color: #007bff; /* Custom button color */
+            color: #ffffff; /* White text */
+            border: none; /* Remove border */
+            padding: 10px 20px; /* Padding */
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s ease; /* Transition for hover effect */
+        }
+
+        .btn-custom:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">InterfaithConnect</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'community_list' %}">Communities</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'event_list' %}">Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'settings' %}">Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1 class="text-center">Account Settings</h1>
+
+        <!-- Profile Update Form -->
+        <form id="settings-form" method="POST" action="{% url 'settings' %}">
+            {% csrf_token %}
+        
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}" required>
+            </div>
+        
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+            </div>
+        
+            <div class="form-group">
+                <label for="first_name">First Name</label>
+                <input type="text" class="form-control" id="first_name" name="first_name" value="{{ user.first_name }}">
+            </div>
+        
+            <div class="form-group">
+                <label for="last_name">Last Name</label>
+                <input type="text" class="form-control" id="last_name" name="last_name" value="{{ user.last_name }}">
+            </div>
+        
+            <button type="submit" class="btn btn-custom" onclick="return confirmSubmit()">Save Changes</button>
+        
+        </form>
+
+        <!-- Password Change Form -->
+        <h2 class="mt-4">Change Password</h2>
+        <form method="POST" action="#change_password">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="current_password">Current Password</label>
+                <input type="password" class="form-control" id="current_password" name="current_password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="new_password">New Password</label>
+                <input type="password" class="form-control" id="new_password" name="new_password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm_password">Confirm New Password</label>
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+            </div>
+
+            <button type="submit" class="btn btn-custom">Change Password</button>
+        </form>
+
+        <!-- Notification Preferences -->
+        <h2 class="mt-4">Notification Preferences</h2>
+        <form method="POST" action="#update_notifications">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="email_notifications" name="email_notifications" {% if user.profile.email_notifications %}checked{% endif %}>
+                    <label class="form-check-label" for="email_notifications">Receive Email Notifications</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="sms_notifications" name="sms_notifications" {% if user.profile.sms_notifications %}checked{% endif %}>
+                    <label class="form-check-label" for="sms_notifications">Receive SMS Notifications</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-custom">Update Notifications</button>
+        </form>
+
+        <!-- Profile Picture Upload -->
+        <h2 class="mt-4">Profile Picture</h2>
+        <form method="POST" action="#update_profile_picture#" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="profile_picture">Upload Profile Picture</label>
+                <input type="file" class="form-control-file" id="profile_picture" name="profile_picture">
+            </div>
+            <button type="submit" class="btn btn-custom">Upload Picture</button>
+        </form>
+
+        <!-- Two-Factor Authentication -->
+        <h2 class="mt-4">Two-Factor Authentication</h2>
+        <form method="POST" action="#update_2fa#">
+            {% csrf_token %}
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="two_factor" name="two_factor" {% if user.profile.two_factor %}checked{% endif %}>
+                <label class="form-check-label" for="two_factor">Enable Two-Factor Authentication</label>
+            </div>
+            <button type="submit" class="btn btn-custom">Update 2FA</button>
+        </form>
+
+        <!-- Account Activity Log -->
+        <h2 class="mt-4">Account Activity Log</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Activity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for activity in user.activity_log.all %}
+                <tr>
+                    <td>{{ activity.date }}</td>
+                    <td>{{ activity.description }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2">No recent activity.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Connected Accounts -->
+        <h2 class="mt-4">Connected Accounts</h2>
+        <form method="POST" action="#connect_social">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="facebook">Link Facebook Account</label>
+                <input type="text" class="form-control" id="facebook" name="facebook" placeholder="Facebook URL" value="{{ user.profile.facebook }}">
+            </div>
+            <div class="form-group">
+                <label for="twitter">Link Twitter Account</label>
+                <input type="text" class="form-control" id="twitter" name="twitter" placeholder="Twitter URL" value="{{ user.profile.twitter }}">
+            </div>
+            <button type="submit" class="btn btn-custom">Connect Accounts</button>
+        </form>
+
+        <!-- Delete Account Section -->
+        <h2 class="mt-4">Delete Account</h2>
+        <p class="text-danger">Warning: This action is irreversible. If you wish to permanently delete your account, please click the button below.</p>
+        <form method="POST" action="{% url 'settings' %}" onsubmit="return confirmDelete();">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete My Account</button>
+        </form>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2024 InterfaithConnect. All Rights Reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function confirmSubmit() {
+            return confirm("Are you sure you want to save the changes?");
+        }
+        function confirmDelete() {
+        return confirm("Are you sure you want to delete your account? This action cannot be undone.");
+    }
+
+    </script>
+    
+</body>
+</html>
+

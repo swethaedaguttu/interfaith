@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Community - Community Connect</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(to top, rgba(135, 206, 250, 0.8), rgba(255, 255, 255, 0.9)),
+                        url('https://cdn.pixabay.com/photo/2016/05/01/11/10/clouds-1421806_1280.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .container {
+            max-width: 600px;  /* Increased width for more content */
+            margin: auto;
+            margin-top: 5%;
+            padding: 30px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center; /* Center align the heading */
+            color: #801155; /* Color for the heading */
+        }
+
+        .btn {
+            background-color: #FF6F20;
+            color: #ffffff;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #FF8C00;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Create a New Community Profile</h1>
+        <form method="POST" action="{% url 'community_create' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="existing_community">Select Existing Community:</label>
+                <select id="existing_community" class="form-control" onchange="populateForm()">
+                    <option value="">-- Select a Community --</option>
+                    {% for community in communities %}
+                        <option value="{{ community.id }}" data-name="{{ community.name }}" data-description="{{ community.description }}" data-contact-email="{{ community.contact_email }}" data-contact-phone="{{ community.contact_phone }}" data-location="{{ community.location }}" data-community-type="{{ community.community_type }}" data-facebook-link="{{ community.facebook_link }}" data-twitter-link="{{ community.twitter_link }}" data-instagram-link="{{ community.instagram_link }}">
+                            {{ community.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Community Name:</label>
+                <input type="text" name="name" class="form-control" id="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea name="description" class="form-control" id="description" rows="4" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="contact_email">Contact Email:</label>
+                <input type="email" name="contact_email" class="form-control" id="contact_email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="contact_phone">Contact Phone:</label>
+                <input type="tel" name="contact_phone" class="form-control" id="contact_phone" required>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" name="address" class="form-control" id="address" required>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Land Mark:</label>
+                <input type="text" name="location" class="form-control" id="location" required>
+            </div>
+            <div class="form-group">
+                <label for="worship_house_name">Worship House Name:</label>
+                <input type="text" name="worship_house_name" class="form-control" id="worship_house_name" placeholder="e.g., Church Name, Temple Name, Mosque Name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="map_location">Map Location URL:</label>
+                <input type="url" name="map_location" class="form-control" id="map_location" placeholder="e.g., Google Maps URL" required>
+            </div>
+
+            <div class="form-group">
+                <label for="members">Join Members:</label>
+                <input type="text" name="members" class="form-control" id="members" placeholder="e.g., Member1, Member2" required>
+                <button type="button" class="btn btn-secondary mt-2" id="join_members_btn">Join Members</button>
+            </div>
+
+            <div class="form-group">
+                <label for="suggest_members">Suggest Members:</label>
+                <input type="text" name="suggest_members" class="form-control" id="suggest_members" placeholder="e.g., Suggestion1, Suggestion2">
+                <button type="button" class="btn btn-secondary mt-2" id="suggest_btn">Suggest Members</button>
+            </div>
+
+
+            <div class="form-group">
+                <label for="worship_details">More About Your Worship House:</label>
+                <textarea name="worship_details" class="form-control" id="worship_details" rows="4" placeholder="Add more details about your worship house"></textarea>
+            </div>
+
+            
+
+            <div class="form-group">
+                <label for="community_type">Community Type:</label>
+                <select name="community_type" class="form-control" id="community_type" required>
+                    <option value="">Select Community Type</option>
+                    <option value="Religious">Religious</option>
+                    <option value="Social">Social</option>
+                    <option value="Educational">Educational</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="profile_image">Profile Image:</label>
+                <input type="file" name="profile_image" class="form-control-file" id="profile_image">
+            </div>
+
+            <div class="form-group">
+                <label for="facebook_link">Facebook URL:</label>
+                <input type="url" name="facebook_link" class="form-control" id="facebook_link">
+            </div>
+
+            <div class="form-group">
+                <label for="twitter_link">Twitter URL:</label>
+                <input type="url" name="twitter_link" class="form-control" id="twitter_link">
+            </div>
+
+            <div class="form-group">
+                <label for="instagram_link">Instagram URL:</label>
+                <input type="url" name="instagram_link" class="form-control" id="instagram_link">
+            </div>
+
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="is_interfaith" name="is_interfaith">
+                <label class="form-check-label" for="is_interfaith">Is this an interfaith community?</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create Community</button>
+            <a href="{% url 'community_list' %}" class="btn btn-secondary mt-2">Back to Communities</a>
+            <a href="{% url 'home' %}" class="btn btn-secondary mt-2">Back to Home</a>
+            <button type="button" class="btn btn-secondary mt-2" id="share_profile_btn">Share Profile</button>
+
+        </form>
+        <div class="footer-text mt-4">
+            <p>Need help? Contact support for assistance.</p>
+        </div>
+    </div>
+
+    <script>
+        function populateForm() {
+            const select = document.getElementById('existing_community');
+            const selectedOption = select.options[select.selectedIndex];
+
+            if (selectedOption.value) {
+                document.getElementById('name').value = selectedOption.dataset.name;
+                document.getElementById('description').value = selectedOption.dataset.description;
+                document.getElementById('contact_email').value = selectedOption.dataset.contactEmail;
+                document.getElementById('contact_phone').value = selectedOption.dataset.contactPhone;
+                document.getElementById('location').value = selectedOption.dataset.location;
+                document.getElementById('community_type').value = selectedOption.dataset.communityType;
+                document.getElementById('facebook_link').value = selectedOption.dataset.facebookLink;
+                document.getElementById('twitter_link').value = selectedOption.dataset.twitterLink;
+                document.getElementById('instagram_link').value = selectedOption.dataset.instagramLink;
+            } else {
+                // Clear the form fields if no community is selected
+                document.getElementById('name').value = '';
+                document.getElementById('description').value = '';
+                document.getElementById('contact_email').value = '';
+                document.getElementById('contact_phone').value = '';
+                document.getElementById('location').value = '';
+                document.getElementById('community_type').value = '';
+                document.getElementById('facebook_link').value = '';
+                document.getElementById('twitter_link').value = '';
+                document.getElementById('instagram_link').value = '';
+            }
+        }
+                // JavaScript for handling button clicks
+                document.getElementById('join_members_btn').addEventListener('click', function() {
+            const membersInput = document.getElementById('members').value;
+            alert('Members joined: ' + membersInput);
+        });
+
+        document.getElementById('suggest_btn').addEventListener('click', function() {
+            const suggestInput = document.getElementById('suggest_members').value;
+            alert('Suggested members: ' + suggestInput);
+        });
+
+        document.getElementById('share_profile_btn').addEventListener('click', function() {
+            const communityName = document.getElementById('name').value;
+            const communityLink = window.location.href; // Or the specific link to share
+            alert('Share this profile: ' + communityName + ' - ' + communityLink);
+        });
+    // JavaScript for handling button clicks
+    document.getElementById('join_members_btn').addEventListener('click', function() {
+        const membersInput = document.getElementById('members').value;
+        alert('Members joined: ' + membersInput);
+    });
+
+    document.getElementById('suggest_btn').addEventListener('click', function() {
+        const suggestInput = document.getElementById('suggest_members').value;
+        alert('Suggested members: ' + suggestInput);
+    });
+
+    document.getElementById('share_profile_btn').addEventListener('click', function() {
+        const communityName = document.getElementById('name').value;
+        const communityLink = window.location.href; // Link to the current profile
+        const shareMessage = `Check out this community: ${communityName} - ${communityLink}`;
+        
+        // You can also use the Web Share API if supported by the browser
+        if (navigator.share) {
+            navigator.share({
+                title: `Community Profile: ${communityName}`,
+                text: shareMessage,
+                url: communityLink,
+            })
+            .then(() => console.log('Profile shared successfully'))
+            .catch((error) => console.error('Error sharing profile:', error));
+        } else {
+            // Fallback for browsers that do not support the Web Share API
+            alert('Share this link: ' + communityLink);
+        }
+    });
+
+    </script>
+</body>
+</html>

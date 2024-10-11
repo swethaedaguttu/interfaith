@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion Forums</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Bootstrap CSS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> <!-- jQuery for interactivity -->
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script> <!-- Moment.js for date manipulation -->
+</head>
+<body>
+    <header class="bg-success text-white text-center py-4">
+        <h1>Discussion Forums</h1>
+        <nav>
+            <a href="{% url 'community_networking' %}" class="btn btn-light mx-2">Back to Community</a>
+            <button class="btn btn-info mx-2" data-toggle="modal" data-target="#forumModal">Create New Thread</button>
+        </nav>
+    </header>
+
+    <main class="container my-5">
+        <div class="alert alert-info">
+            <p>Welcome to the Discussion Forums. Here you can engage in meaningful conversations about various topics.</p>
+        </div>
+
+        <h2>Active Discussion Threads</h2>
+        <div id="forumThreads" class="mb-4">
+            <!-- Sample forum thread -->
+            <div class="alert alert-secondary">
+                <h5>Sample Discussion Topic</h5>
+                <p>Join us for a discussion on community outreach initiatives.</p>
+                <button class="btn btn-link" data-toggle="modal" data-target="#threadModal" onclick="loadThread('Sample Discussion Topic', 'This is a detailed discussion on community outreach initiatives.')">Join Discussion</button>
+            </div>
+        </div>
+
+        <!-- Modal for Discussion Forum Creation -->
+        <div class="modal fade" id="forumModal" tabindex="-1" role="dialog" aria-labelledby="forumModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="forumModalLabel">Create New Discussion Thread</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="threadForm">
+                            <div class="form-group">
+                                <label for="threadTitle">Thread Title</label>
+                                <input type="text" class="form-control" id="threadTitle" placeholder="Enter title of the thread" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="threadContent">Content</label>
+                                <textarea class="form-control" id="threadContent" rows="3" placeholder="Enter your discussion content" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create Thread</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Detailed Discussion -->
+        <div class="modal fade" id="threadModal" tabindex="-1" role="dialog" aria-labelledby="threadModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="threadModalLabel">Discussion Thread</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h5 id="threadTitleDisplay"></h5>
+                        <p id="threadContentDisplay"></p>
+                        <h6>Comments:</h6>
+                        <div id="commentsSection"></div>
+                        <textarea id="commentInput" class="form-control mt-2" rows="2" placeholder="Add a comment..."></textarea>
+                        <button class="btn btn-primary mt-2" id="addCommentButton">Comment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Interfaith Resources</h2>
+        <div id="resourceLibrary" class="mb-4">
+            <h3>Resources</h3>
+            <ul id="resourcesList" class="list-group">
+                <li class="list-group-item"><a href="#">Understanding Different Faiths: A Comprehensive Guide</a></li>
+                <li class="list-group-item"><a href="#">Interfaith Dialogue: Building Bridges</a></li>
+                <li class="list-group-item"><a href="#">Religious Tolerance: An Essential Community Value</a></li>
+                <li class="list-group-item"><a href="#">Cultural Celebrations: Embracing Diversity</a></li>
+                <li class="list-group-item"><a href="#">Common Ground: Interfaith Projects and Initiatives</a></li>
+                <li class="list-group-item"><a href="#">Books on Religion and Spirituality</a></li>
+                <li class="list-group-item"><a href="#">Videos and Documentaries on Faiths Around the World</a></li>
+                <li class="list-group-item"><a href="#">Interfaith Resources for Educators</a></li>
+            </ul>
+        </div>
+
+        <!-- Calendar for Religious Events -->
+        <h2>Religious Events Calendar</h2>
+        <div class="mb-4">
+            <h3>Upcoming Events</h3>
+            <ul id="eventsList" class="list-group">
+                <li class="list-group-item">Diwali - November 12, 2024</li>
+                <li class="list-group-item">Christmas - December 25, 2024</li>
+                <li class="list-group-item">Eid al-Fitr - April 10, 2025</li>
+                <li class="list-group-item">Hannukah - December 6, 2024</li>
+            </ul>
+        </div>
+
+        <!-- Resource Request Form -->
+        <h2>Request Additional Resources</h2>
+        <div id="resourceRequest" class="mb-4">
+            <form id="requestForm">
+                <div class="form-group">
+                    <label for="resourceName">Resource Name</label>
+                    <input type="text" class="form-control" id="resourceName" placeholder="What resource do you need?" required>
+                </div>
+                <div class="form-group">
+                    <label for="resourceDetails">Details</label>
+                    <textarea class="form-control" id="resourceDetails" rows="3" placeholder="Provide details about the resource" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Request Resource</button>
+            </form>
+        </div>
+
+    </main>
+
+    <script>
+        // Handling Discussion Thread Creation
+        $('#threadForm').on('submit', function(e) {
+            e.preventDefault();
+            const threadTitle = $('#threadTitle').val();
+            const threadContent = $('#threadContent').val();
+            $('#forumModal').modal('hide');
+
+            // Append new thread to the forum threads
+            $('#forumThreads').append(`
+                <div class="alert alert-secondary">
+                    <h5>${threadTitle}</h5>
+                    <p>${threadContent}</p>
+                    <button class="btn btn-link" data-toggle="modal" data-target="#threadModal" onclick="loadThread('${threadTitle}', '${threadContent}')">Join Discussion</button>
+                </div>
+            `);
+
+            // Clear the form
+            $('#threadTitle').val('');
+            $('#threadContent').val('');
+        });
+
+        // Function to load thread details
+        function loadThread(title, content) {
+            $('#threadTitleDisplay').text(title);
+            $('#threadContentDisplay').text(content);
+            $('#commentsSection').empty(); // Clear previous comments
+
+            // Here you can load comments from backend if necessary
+        }
+
+        // Handling Comment Submission
+        $('#addCommentButton').on('click', function() {
+            const comment = $('#commentInput').val();
+            if (comment) {
+                $('#commentsSection').append(`<div class="alert alert-light">${comment}</div>`);
+                $('#commentInput').val(''); // Clear input field
+                // Here you can also send the comment to the backend
+            } else {
+                alert('Please enter a comment before submitting.');
+            }
+        });
+
+        // Handling Resource Request Submission
+        $('#requestForm').on('submit', function(e) {
+            e.preventDefault();
+            const resourceName = $('#resourceName').val();
+            const resourceDetails = $('#resourceDetails').val();
+            alert(`Resource Requested: ${resourceName}\nDetails: ${resourceDetails}`);
+            $('#resourceName').val(''); // Clear input field
+            $('#resourceDetails').val(''); // Clear details input field
+        });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> <!-- Popper.js for Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> <!-- Bootstrap JS -->
+</body>
+</html>

@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Community - InterfaithConnect</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            /* Heavenly background: gradient + clouds */
+            background: linear-gradient(to top, rgba(135, 206, 250, 0.8), rgba(255, 255, 255, 0.9)),
+                        url('https://cdn.pixabay.com/photo/2016/05/01/11/10/clouds-1421806_1280.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .container {
+            max-width: 450px;
+            margin: auto;
+            margin-top: 10%;
+            padding: 30px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        
+        h1 {
+            text-align: center;
+            color: #801155;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .form-control {
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        .form-control:focus {
+            background-color: #e2e6ea;
+        }
+
+        .btn {
+            border-radius: 5px;
+            background-color: #FF6F20;
+            color: #ffffff;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #FF8C00;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 20px;
+            color: #6c757d;
+        }
+
+        a {
+            color: #FF6F20;
+        }
+
+        a:hover {
+            color: #FF8C00;
+        }
+    </style>
+</head>
+<body>
+    <h1>InterfaithConnect</h1>  <!-- Added header for Community Connect -->
+    <div class="container">
+
+        <h1><i class="fas fa-users"></i> Create Community</h1>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} mt-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Community Name</label>
+                <input type="text" class="form-control" id="name" name="name" required placeholder="Enter Community Name">
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" name="description" required placeholder="Enter Community Description"></textarea>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="is_interfaith" name="is_interfaith">
+                <label class="form-check-label" for="is_interfaith">Is this an interfaith community?</label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Create Community</button>
+        </form>
+        <p class="footer-text">Back to <a href="{% url 'community_list' %}">Community List</a> or <a href="{% url 'home' %}">Home</a>.</p>
+    </div>
+</body>
+</html>

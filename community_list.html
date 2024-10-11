@@ -1,0 +1,100 @@
+<!-- events/templates/events/community_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Communities - Community Connect</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(to top, rgba(135, 206, 250, 0.8), rgba(255, 255, 255, 0.9)),
+                        url('https://cdn.pixabay.com/photo/2016/05/01/11/10/clouds-1421806_1280.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            margin-top: 5%;
+            padding: 30px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #801155;
+        }
+
+        .btn {
+            background-color: #FF6F20;
+            color: #ffffff;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #FF8C00;
+        }
+
+        .list-group-item a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .list-group-item a:hover {
+            color: #FF6F20;
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>InterfaithConnect</h1>
+
+    <div class="container mt-5">
+        <h1>Communities</h1>
+
+        <!-- Search Bar -->
+        <div class="mb-3">
+            <input type="text" id="search" class="form-control" placeholder="Search Communities..." onkeyup="filterCommunities()">
+        </div>
+
+        <ul class="list-group" id="communityList">
+            {% for community in communities %}
+                <li class="list-group-item">
+                    <a href="{% url 'community_details' community.id %}">{{ community.name }}</a>
+                </li>
+            {% empty %}
+                <li class="list-group-item">No communities available.</li>
+            {% endfor %}
+        </ul>
+
+        <a href="{% url 'community_create' %}" class="btn btn-primary mt-3">Create New Community</a>
+        <a href="{% url 'home' %}" class="btn btn-secondary mt-2">Back to Home</a>
+    </div>
+
+    <script>
+        function filterCommunities() {
+            const input = document.getElementById('search');
+            const filter = input.value.toLowerCase();
+            const list = document.getElementById('communityList');
+            const items = list.getElementsByTagName('li');
+
+            for (let i = 0; i < items.length; i++) {
+                const a = items[i].getElementsByTagName('a')[0];
+                if (a) {
+                    const txtValue = a.textContent || a.innerText;
+                    items[i].style.display = txtValue.toLowerCase().includes(filter) ? "" : "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

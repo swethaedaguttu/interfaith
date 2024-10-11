@@ -1,0 +1,44 @@
+<!-- request_help_category_4.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Support - Request Help</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Bootstrap CSS -->
+</head>
+
+<body>
+    <header class="bg-warning text-white text-center py-4">
+        <h1>Educational Support</h1>
+        <nav>
+            <a href="{% url 'offer_help' %}" class="btn btn-light mx-2">Offer Help</a>
+            <a href="{% url 'request_help' %}" class="btn btn-light mx-2">Request Help</a>
+            <a href="{% url 'event_list' %}" class="btn btn-light mx-2">View Upcoming Events</a>
+        </nav>
+    </header>
+
+    <main class="container my-5">
+        <div class="alert alert-info">
+            <p>Welcome to the Educational Support Request Help page. Here you can find resources and request help related to education.</p>
+        </div>
+        <h2>How to Request Help</h2>
+        <p>If you or someone you know needs educational support, please reach out to the following resources:</p>
+        <ul class="list-group">
+            <li class="list-group-item">Resource 1: Contact details for educational support service 1.</li>
+            <li class="list-group-item">Resource 2: Contact details for educational support service 2.</li>
+            <li class="list-group-item">Resource 3: Contact details for educational support service 3.</li>
+        </ul>
+    </main>
+
+    <footer class="text-center py-3 bg-light">
+        <p>&copy; 2024 Your Organization | <a href="{% url 'home' %}">Home</a></p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

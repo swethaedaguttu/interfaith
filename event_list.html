@@ -1,0 +1,76 @@
+<!-- events/templates/events/event_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - Community Connect</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(to top, rgba(135, 206, 250, 0.8), rgba(255, 255, 255, 0.9)),
+                        url('https://cdn.pixabay.com/photo/2016/05/01/11/10/clouds-1421806_1280.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            font-family: 'Roboto', sans-serif;
+            height: 100vh; /* Full viewport height */
+            display: flex;
+            align-items: center; /* Center vertically */
+            justify-content: center; /* Center horizontally */
+            margin: 0; /* Remove default margin */
+        }
+
+        .container {
+            max-width: 800px;
+            padding: 30px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.9); /* Slightly more opaque for better contrast */
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #801155;
+            margin-bottom: 20px; /* Add margin below to separate from the events */
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px; /* Add margin below to separate from the list */
+        }
+
+        .btn {
+            background-color: #FF6F20;
+            color: #ffffff;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #FF8C00;
+        }
+
+        .list-group-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>InterfaithConnect</h1> <!-- Move this inside the container -->
+        <h2>Upcoming Events</h2>
+        <ul class="list-group">
+            {% for event in events %}
+                <li class="list-group-item">
+                    <a href="{% url 'event_details' event.id %}">{{ event.title }}</a> 
+                    <span>{{ event.date }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'event_create' %}" class="btn btn-primary mt-3">Create New Event</a>
+        <a href="{% url 'home' %}" class="btn btn-secondary mt-2">Back to Home</a>
+    </div>
+</body>
+</html>

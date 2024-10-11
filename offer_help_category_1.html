@@ -1,0 +1,47 @@
+<!-- offer_help_category_1.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Support</title>
+    
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> <!-- Bootstrap CSS -->
+</head>
+
+<body>
+    <header class="bg-primary text-white text-center py-4">
+        <h1>Mental Health Support</h1>
+        <nav>
+            <a href="{% url 'offer_support' %}" class="btn btn-light mx-2">Offer Help</a>
+            <a href="{% url 'request_help' %}" class="btn btn-light mx-2">Request Help</a>
+            <a href="{% url 'event_list' %}" class="btn btn-light mx-2">View Upcoming Events</a>
+        </nav>
+    </header>
+
+    <main class="container my-5">
+        <div class="alert alert-info">
+            <p>Welcome to the Mental Health Support page. Here you can find resources and support related to mental health.</p>
+        </div>
+        <h2>Resources for Mental Health Support</h2>
+        <ul class="list-group">
+            <li class="list-group-item">Resource 1: Description of mental health resource 1.</li>
+            <li class="list-group-item">Resource 2: Description of mental health resource 2.</li>
+            <li class="list-group-item">Resource 3: Description of mental health resource 3.</li>
+            <li class="list-group-item">Resource 4: Description of mental health resource 4.</li>
+        </ul>
+    </main>
+
+    <footer class="text-center py-3 bg-light">
+        <p>&copy; 2024 Your Organization | <a href="{% url 'home' %}">Home</a></p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

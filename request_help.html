@@ -1,0 +1,254 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Connect</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #aacfcf; /* Lighter background for the whole page */
+            color: #333;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Navbar styles */
+        .navbar {
+            background-color: #007bff; /* Bright blue for navbar */
+        }
+
+        .navbar-brand {
+            color: #100f0f !important;
+            font-weight: bold;
+            font-size: 1.8rem;
+        }
+
+        .navbar-nav .nav-link {
+            color: #a71313 !important;
+            font-weight: 500;
+            transition: color 0.3s, transform 0.3s; /* Added transform for hover */
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #ffd700 !important; /* Gold color on hover */
+            transform: scale(1.1); /* Scale effect on hover */
+        }
+
+        /* Main container styles */
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+            background-color: #ffffff; /* White background for main content */
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Increased shadow for depth */
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: #343a40; /* Dark gray for footer */
+            color: #030303; /* White text for footer */
+            padding: 20px 0;
+        }
+
+        footer p {
+            margin: 0;
+            text-align: center;
+        }
+
+        /* Alert message styles */
+        .alert {
+            margin-bottom: 20px;
+        }
+
+        /* List item hover effects */
+        .list-group-item {
+            transition: background-color 0.3s, transform 0.3s; /* Added transform for hover */
+            cursor: pointer;
+        }
+
+        .list-group-item:hover {
+            background-color: #dff9ff; /* Light blue on hover */
+            transform: translateY(-2px); /* Lift effect on hover */
+        }
+
+        /* Expanded content styles */
+        .expanded-content {
+            display: none;
+            margin-top: 10px;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        /* Section styles */
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .window {
+            border: 1px solid #dcdcdc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9; /* Light gray for windows */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Increased shadow for depth */
+        }
+
+        .breadcrumb {
+            background-color: transparent; /* No background for breadcrumb */
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">InterfaithConnect</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'community_list' %}">Communities</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'event_list' %}">Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'offer_help' %}">Offer Help</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="{% url 'request_help' %}">Request Help</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Request Help</li>
+            </ol>
+        </nav>
+
+        <div class="section">
+            <h1 class="text-center">Request Help</h1>
+            <p class="lead text-center">Let us know what assistance you need.</p>
+            <p class="text-center">This section is dedicated to providing support across different religious interfaith matters. We believe in the importance of inclusivity, understanding, and collaboration among various faith communities. Whether you seek guidance, resources, or support related to your faith or interfaith discussions, we are here to help.</p>
+            <p class="text-center">The assistance offered includes:</p>
+            <ul class="text-center">
+                <li>Spiritual guidance and counseling</li>
+                <li>Community resources for faith-based events</li>
+                <li>Educational support regarding different faiths</li>
+                <li>Conflict resolution in interfaith settings</li>
+                <li>Social services that respect diverse religious practices</li>
+            </ul>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" role="alert">
+                        {{ message }}<br>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="window mt-4">
+                <h4>Request Help Form</h4>
+                <form method="POST" action="{% url 'request_help' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="category">Select Help Category:</label>
+                        <select class="form-control" id="category" name="category" required>
+                            <option value="">Choose a category...</option>
+                            <option value="mental_health">Mental Health Support</option>
+                            <option value="food_assistance">Food Assistance</option>
+                            <option value="shelter_services">Shelter Services</option>
+                            <option value="educational_support">Educational Support</option>
+                            <option value="interfaith_support">Interfaith Support</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description of Help Needed:</label>
+                        <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="user_name">Your Name:</label>
+                        <input type="text" class="form-control" id="user_name" name="user_name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contact_info">Contact Information (Phone/Email/Address):</label>
+                        <input type="text" class="form-control" id="contact_info" name="contact_info" placeholder="Enter your phone number or email or address" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-success btn-block">Submit Request</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="section">
+            <h1 class="text-center">Requested Messages</h1>
+            <p class="lead text-center">Here are the help requests made by the community.</p>
+
+            <div class="requested-messages">
+                <ul class="list-group">
+                    {% for request in help_requests %}
+                        <li class="list-group-item" data-toggle="collapse" data-target="#message-{{ forloop.counter }}"
+                            aria-expanded="false" aria-controls="message-{{ forloop.counter }}">
+                            <strong>{{ request.user_name }}</strong>: {{ request.description|truncatechars:50 }}<br>
+                            <em>Category: {{ request.category }}</em><br>
+                            <strong>Contact Info:</strong> {{ request.contact_info }}<br>
+                            <strong>Status:</strong> {{ request.status }}
+                            <div class="expanded-content collapse" id="message-{{ forloop.counter }}">
+                                <hr>
+                                <strong>Full Description:</strong>
+                                <p>{{ request.description }}</p>
+                            </div>
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">No help requests found.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {{ current_year }} InterfaithConnect. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function editRequest(id) {
+            // Add your edit functionality here
+            alert('Edit request with ID: ' + id);
+        }
+
+        function deleteRequest(id) {
+            // Add your delete functionality here
+            alert('Delete request with ID: ' + id);
+        }
+    </script>
+</body>
+
+</html>
